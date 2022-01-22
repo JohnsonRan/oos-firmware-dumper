@@ -1,0 +1,47 @@
+name: oos-firmware-dumper
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install depedencies
+        run: |
+          mkdir tmp
+          wget https://github.com/ssut/payload-dumper-go/releases/download/1.2.0/payload-dumper-go_1.2.0_linux_amd64.tar.gz -P tmp/
+          tar zxvf ./tmp/payload-dumper-go_1.2.0_linux_amd64.tar.gz -o payload-dumper-go
+          
+      - name: Download ROM
+        run: |
+          wget -O ./tmp/ROM.zip -i url.txt
+
+      - name: Dump payload.bin
+        run: |
+          ./payload-dumper-go -o output ./tmp/ROM.zip
+
+      - name: Remove unnessary files
+        run: |
+          rm -rf tmp/
+          rm -f payload-dumper-go
+          rm -f output/boot.img
+          rm -f output/dtbo.img
+          rm -f output/odm.img
+          rm -f output/system.img
+          rm -f output/system_ext.img
+          rm -f output/vbmeta.img
+          rm -f output/vbmeta_system.img
+          rm -f output/vendor.img
+          rm -f output/product.img
+          rm -f output/recovery.img
+          rm -f output/india.img
+          
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: firmware
+          path: './output/*'
