@@ -1,7 +1,7 @@
 # oos-firmware-dumper
 
-- Fork this repo.  
-Fork 这个项目
+- Click **Use this template**  
+点击 **Use this template** 
 
 - Then simply put download url to `url.txt`, then go Actions page triger **oos-firmware-dumper** workflow urself.  
 然后只需要将下载直链填入 `url.txt` 然后去 Actions 页面手动触发 **oos-firmware-dumper**  
